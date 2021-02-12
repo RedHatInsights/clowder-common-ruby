@@ -9,6 +9,10 @@ unless File.exist?(arg_config)
   exit 1
 end
 
+def IsClowderEnabled()
+  return ENV["ACG_CONFIG"] != "" ? true : false
+end
+
 LoadedConfig = AppConfig.new(JSON.parse(File.read(arg_config)))
 
 KafkaTopics = {}.tap do |topics|

@@ -52,4 +52,8 @@ describe AppCommonRuby do
     expect(KafkaServers.count).to eq(1)
     expect(KafkaServers.first).to eq("{broker-host}:{27015}")
   end
+
+  it "should return enabled is true in a test" do
+    expect(IsClowderEnabled()).to eq(true)
+  end
 end
