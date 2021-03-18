@@ -34,7 +34,8 @@
         "port": 5432,
         "adminUsername": "adminusername",
         "adminPassword": "adminpassword",
-        "rdsCa": "ca"
+        "rdsCa": "ca",
+	    "sslMode": "verify-full"
     },
     "objectStore": {
         "hostname": "endpoint",

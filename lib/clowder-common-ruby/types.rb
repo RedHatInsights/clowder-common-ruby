@@ -221,6 +221,7 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :accessKey
         keys << :secretKey
+        keys << :region
         keys << :requestedName
         keys << :name
       end
