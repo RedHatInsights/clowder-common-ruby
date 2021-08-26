@@ -133,7 +133,7 @@ module ClowderCommonRuby
     end
   end
 
-  class BrokerConfig < OpenStruct
+  class KafkaSASLConfig < OpenStruct
 
     def initialize(attributes)
       super
@@ -148,8 +148,34 @@ module ClowderCommonRuby
 
     def valid_keys
       [].tap do |keys|
+        keys << :username
+        keys << :password
+      end
+    end
+  end
+
+  class BrokerConfig < OpenStruct
+    attr_accessor :sasl
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        raise "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+      @sasl = KafkaSASLConfig.new(attributes.fetch(:sasl, {}))
+    end
+
+    def valid_keys
+      [].tap do |keys|
         keys << :hostname
         keys << :port
+        keys << :cacert
+        keys << :authtype
+        keys << :sasl
       end
     end
   end
@@ -171,7 +197,6 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :requestedName
         keys << :name
-        keys << :consumerGroup
       end
     end
   end
@@ -221,6 +246,7 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :accessKey
         keys << :secretKey
+        keys << :region
         keys << :requestedName
         keys << :name
       end
@@ -274,6 +300,7 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :hostname
         keys << :port
+        keys << :clientAccessToken
       end
     end
   end
