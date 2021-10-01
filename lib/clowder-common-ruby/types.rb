@@ -4,6 +4,7 @@ require 'ostruct'
 module ClowderCommonRuby
   class AppConfig < OpenStruct
     attr_accessor :logging
+    attr_accessor :metadata
     attr_accessor :kafka
     attr_accessor :database
     attr_accessor :objectStore
@@ -22,6 +23,7 @@ module ClowderCommonRuby
       end
 
       @logging = LoggingConfig.new(attributes.fetch(:logging, {}))
+      @metadata = AppMetadata.new(attributes.fetch(:metadata, {}))
       @kafka = KafkaConfig.new(attributes.fetch(:kafka, {}))
       @database = DatabaseConfig.new(attributes.fetch(:database, {}))
       @objectStore = ObjectStoreConfig.new(attributes.fetch(:objectStore, {}))
@@ -45,6 +47,7 @@ module ClowderCommonRuby
         keys << :metricsPort
         keys << :metricsPath
         keys << :logging
+        keys << :metadata
         keys << :kafka
         keys << :database
         keys << :objectStore
@@ -75,6 +78,52 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :type
         keys << :cloudwatch
+      end
+    end
+  end
+
+  class AppMetadata < OpenStruct
+    attr_accessor :deployments
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        warn "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+      @deployments = []
+      attributes.fetch(:deployments, []).each do |attr|
+        @deployments << DeploymentMetadata.new(attr)
+      end
+    end
+
+    def valid_keys
+      [].tap do |keys|
+        keys << :deployments
+      end
+    end
+  end
+
+  class DeploymentMetadata < OpenStruct
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        warn "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+    end
+
+    def valid_keys
+      [].tap do |keys|
+        keys << :name
+        keys << :image
       end
     end
   end
@@ -133,7 +182,7 @@ module ClowderCommonRuby
     end
   end
 
-  class BrokerConfig < OpenStruct
+  class KafkaSASLConfig < OpenStruct
 
     def initialize(attributes)
       super
@@ -148,8 +197,34 @@ module ClowderCommonRuby
 
     def valid_keys
       [].tap do |keys|
+        keys << :username
+        keys << :password
+      end
+    end
+  end
+
+  class BrokerConfig < OpenStruct
+    attr_accessor :sasl
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        warn "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+      @sasl = KafkaSASLConfig.new(attributes.fetch(:sasl, {}))
+    end
+
+    def valid_keys
+      [].tap do |keys|
         keys << :hostname
         keys << :port
+        keys << :cacert
+        keys << :authtype
+        keys << :sasl
       end
     end
   end
@@ -171,7 +246,6 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :requestedName
         keys << :name
-        keys << :consumerGroup
       end
     end
   end
@@ -199,6 +273,7 @@ module ClowderCommonRuby
         keys << :adminUsername
         keys << :adminPassword
         keys << :rdsCa
+        keys << :sslMode
       end
     end
   end
@@ -220,6 +295,7 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :accessKey
         keys << :secretKey
+        keys << :region
         keys << :requestedName
         keys << :name
       end
@@ -273,6 +349,8 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :hostname
         keys << :port
+        keys << :clientAccessToken
+        keys << :scheme
       end
     end
   end
