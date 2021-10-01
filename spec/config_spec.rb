@@ -14,7 +14,6 @@ describe ClowderCommonRuby::Config do
     expect(topic_config.class).to eq(ClowderCommonRuby::TopicConfig)
     expect(topic_config.requestedName).to eq("originalName")
     expect(topic_config.name).to eq("someTopic")
-    expect(topic_config.consumerGroup).to eq("someGroupName")
   end
 
   it "should have ObjectBuckets" do
