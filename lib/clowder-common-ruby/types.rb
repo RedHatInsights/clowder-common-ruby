@@ -55,6 +55,7 @@ module ClowderCommonRuby
         keys << :featureFlags
         keys << :endpoints
         keys << :privateEndpoints
+        keys << :BOPURL
       end
     end
   end
@@ -102,6 +103,8 @@ module ClowderCommonRuby
 
     def valid_keys
       [].tap do |keys|
+        keys << :name
+        keys << :envName
         keys << :deployments
       end
     end
@@ -199,6 +202,8 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :username
         keys << :password
+        keys << :securityProtocol
+        keys << :saslMechanism
       end
     end
   end
