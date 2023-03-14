@@ -2,6 +2,7 @@
     "publicPort": 8000,
     "metricsPort": 9000,
     "metricsPath": "/metrics",
+    "tlsCAPath": "/tlsCAPath",
     "logging": {
         "type": "cloudwatch",
         "cloudwatch": {
@@ -63,13 +64,15 @@
             "name": "endpoint1",
             "app": "app1",
             "hostname": "endpoint1.svc",
-            "port": 8000
+            "port": 8000,
+            "tlsPort": 8001
         },
         {
             "name": "endpoint2",
             "app": "app2",
             "hostname": "endpoint2.svc",
-            "port": 8000
+            "port": 8000,
+            "tlsPort": 8001
         }
     ],
     "privateEndpoints": [
@@ -77,13 +80,15 @@
             "name": "endpoint1",
             "app": "app1",
             "hostname": "endpoint1.svc",
-            "port": 10000
+            "port": 10000,
+            "tlsPort": 10001
         },
         {
             "name": "endpoint2",
             "app": "app2",
             "hostname": "endpoint2.svc",
-            "port": 10000
+            "port": 10000,
+            "tlsPort": 10001
         }
     ]
 }
