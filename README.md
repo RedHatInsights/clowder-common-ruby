@@ -47,6 +47,10 @@ The ``clowder`` library also comes with several other helpers
 
 See [test.json](test.json) for all available values
 
+### Usage in Rails 
+
+In Rails applications, requiring the ```clowder-common-ruby/engine``` will run the initializer, the output of which will be accessible under ```Settings```.  
+
 ### Kafka Topics
 
 Topics are structured as a hash `<requested_name> => <name>`
