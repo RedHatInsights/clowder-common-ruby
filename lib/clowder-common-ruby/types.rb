@@ -44,6 +44,7 @@ module ClowderCommonRuby
         keys << :privatePort
         keys << :publicPort
         keys << :webPort
+        keys << :tlsCAPath
         keys << :metricsPort
         keys << :metricsPath
         keys << :logging
@@ -56,6 +57,7 @@ module ClowderCommonRuby
         keys << :endpoints
         keys << :privateEndpoints
         keys << :BOPURL
+        keys << :hashCache
       end
     end
   end
@@ -230,6 +232,7 @@ module ClowderCommonRuby
         keys << :cacert
         keys << :authtype
         keys << :sasl
+        keys << :securityProtocol
       end
     end
   end
@@ -402,6 +405,7 @@ module ClowderCommonRuby
         keys << :hostname
         keys << :port
         keys << :app
+        keys << :tlsPort
       end
     end
   end
@@ -425,6 +429,7 @@ module ClowderCommonRuby
         keys << :hostname
         keys << :port
         keys << :app
+        keys << :tlsPort
       end
     end
   end
