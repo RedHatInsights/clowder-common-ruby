@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+text = File.read('../lib/clowder-common-ruby/version.rb')
+
+patch = text.sub(/^.*'\d+\.\d+\.(\d+)'.*$/m, '\1').to_i
+
+File.open('../lib/clowder-common-ruby/version.rb', 'w') do |f|
+  f.write text.sub(/^(.*'\d+\.\d+\.)\d+('.*)$/m, "\\1#{patch + 1}\\2")
+end

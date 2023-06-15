@@ -1,0 +1,29 @@
+name: "Schema updater"
+on:
+  schedule:
+    - cron: "5 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt install ruby-full
+          bundle install
+      - name: Fetch schema
+        run: |
+          cd bin
+          wget https://raw.githubusercontent.com/RedHatInsights/clowder/master/controllers/cloud.redhat.com/config/schema.json -O schema.json
+          git config user.name 'Update-a-Bot'
+          git config user.email 'insights@redhat.com'
+          ./json_schema_ruby -o ../lib/app-common-ruby/types.rb schema.json
+          git add bin/schema.json ../lib/app-common-ruby/types.rb
+          git diff-index --quiet HEAD -- || ./bump_version
+          git commit -m "chore(schema): update schema and bump version" || echo "No new changes"
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "chore(schema): update schema and bump version"
