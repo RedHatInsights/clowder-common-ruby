@@ -12,8 +12,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y ruby-full
-          sudo gem install bundler
-          bundle install
       - name: Fetch schema
         run: |
           cd bin
