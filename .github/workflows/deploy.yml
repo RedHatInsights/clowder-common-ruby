@@ -15,6 +15,10 @@ jobs:
         run: |
           sudo apt-get install -y ruby-bundler
           bundle install
+      - name: Configure git
+        run: |
+          git config user.name 'Update-a-Bot'
+          git config user.email 'insights@redhat.com'
       - name: Publish gem
         run: git diff --name-only HEAD~1 HEAD | grep lib/clowder-common-ruby/version.rb && bundle exec rake release || echo "There is nothing to release"
         env:
