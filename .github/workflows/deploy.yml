@@ -19,4 +19,3 @@ jobs:
         run: git diff --name-only HEAD~1 HEAD | grep lib/clowder-common-ruby/version.rb && bundle exec rake release || echo "There is nothing to release"
         env:
           GEM_HOST_API_KEY: "${{secrets.GEM_HOST_API_KEY}}"
-          GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
