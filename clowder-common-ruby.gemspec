@@ -13,5 +13,5 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/RedHatInsights/clowder-common-ruby"
   spec.license       = "Apache-2.0"
 
-  spec.files = Dir["{bin,lib}/**/*", "LICENSE.txt", "Rakefile", "README.md", "sync_config.sh", "test.json"]
+  spec.files = Dir["{bin,lib,config}/**/*", "LICENSE.txt", "Rakefile", "README.md", "sync_config.sh", "test.json"]
 end
