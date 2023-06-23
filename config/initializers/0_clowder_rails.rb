@@ -1,6 +1,6 @@
 require 'clowder-common-ruby/rails_config'
 
-if ClowderCommonRuby::Config.clowder_enabled? && defined?(Settings)
+if ClowderCommonRuby::Config.clowder_enabled?
   config = ClowderCommonRuby::RailsConfig.to_h
 
   if config.dig('tls_ca_path')
