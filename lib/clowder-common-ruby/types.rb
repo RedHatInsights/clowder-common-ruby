@@ -406,6 +406,7 @@ module ClowderCommonRuby
         keys << :port
         keys << :app
         keys << :tlsPort
+        keys << :apiPath
       end
     end
   end
