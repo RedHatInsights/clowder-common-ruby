@@ -8,7 +8,7 @@ Based on schema.json, the corresponding Ruby Classes are generated in types.rb.
 Usage
 -----
 
-The `clowder` library provides basic values like expected web port, metrics port,
+The `clowder` library provides basic values like expected public port, metrics port,
 database credentials etc.
 
 Usage:
@@ -21,12 +21,12 @@ require 'clowder-common-ruby'
 
   if ClowderCommonRuby::Config.clowder_enabled?
     config = ClowderCommonRuby::Config.load
-    options["webPorts"]         = config.webPort
+    options["publicPort"]         = config.publicPort
     options["databaseHostname"] = config.database.hostname
     options["kafkaTopics"]      = config.kafka_topics
     # ...
   else
-    options["webPorts"] = 3000
+    options["publicPort"] = 3000
     options["databaseHostname"] = ENV['DATABASE_HOST']
   end
 end
