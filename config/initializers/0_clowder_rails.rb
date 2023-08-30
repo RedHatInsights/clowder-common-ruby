@@ -1,7 +1,7 @@
 require 'clowder-common-ruby/rails_config'
 
 if ClowderCommonRuby::Config.clowder_enabled? && defined?(Settings)
-  config = ClowderCommonRuby::RailsConfig.to_h
+  config = ClowderCommonRuby::RailsConfig.to_h.deep_stringify_keys
 
   if config.dig('tls_ca_path')
     ENV['SSL_CERT_FILE'] = Rails.root.join('tmp', 'cacert.crt')
