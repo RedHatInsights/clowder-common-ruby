@@ -93,7 +93,8 @@ module ClowderCommonRuby
 
         {
           url: redis_url,
-          password: inMemoryDb.dig('password')
+          password: inMemoryDb.dig('password'),
+          ssl: inMemoryDb.dig('sslMode')
         }
       end
 
