@@ -382,6 +382,7 @@ module ClowderCommonRuby
         keys << :port
         keys << :username
         keys << :password
+        keys << :sslMode
       end
     end
   end
