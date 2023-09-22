@@ -306,6 +306,8 @@ module ClowderCommonRuby
         keys << :region
         keys << :requestedName
         keys << :name
+        keys << :tls
+        keys << :endpoint
       end
     end
   end
