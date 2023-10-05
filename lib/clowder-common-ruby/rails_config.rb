@@ -23,18 +23,18 @@ module ClowderCommonRuby
       # Short path for db config
       def db_config
         config = ClowderCommonRuby::Config.load
-        
+
         configure_database(config)
       end
-      
-      private 
+
+      private
 
       # Kafka configuration hash
       def configure_kafka(config)
         # In case there are no kafka brokers, an empty string is ensured in place of ':'
         build_kafka_security(config).merge(
           brokers: build_kafka_brokers(config) || '',
-          topics: build_kafka_topics(config) 
+          topics: build_kafka_topics(config)
         )
       end
 
@@ -47,7 +47,7 @@ module ClowderCommonRuby
         return { security_protocol: 'plaintext' } unless authtype
 
         unless authtype == 'sasl'
-          raise "Unsupported Kafka security protocol '#{authtype}'" 
+          raise "Unsupported Kafka security protocol '#{authtype}'"
         end
 
         {
@@ -62,13 +62,13 @@ module ClowderCommonRuby
 
       # Gives location of ssl certificate and makes sure it exists
       def build_kafka_certificate(cacert)
-        return unless cacert.present? 
+        return unless cacert.present?
 
-        kafka_config[:ssl_ca_location] = Rails.root.join('tmp', 'kafka_ca.crt')
+        ssl_ca_location = Rails.root.join('tmp', 'kafka_ca.crt')
 
-        write_temporary_file(kafka_config[:ssl_ca_location], cacert)
+        write_temporary_file(ssl_ca_location, cacert)
 
-        kafka_config[:ssl_ca_location]
+        ssl_ca_location
       end
 
       # Kafka brokers list
@@ -154,7 +154,7 @@ module ClowderCommonRuby
           ssl_root_cert: build_database_certificate(config.database.rdsCa)
         }
       end
-      
+
       # Gives location of database ssl certificate and makes sure it exists
       def build_database_certificate(rdsca)
         return unless rdsca.present?
@@ -170,7 +170,7 @@ module ClowderCommonRuby
       def write_temporary_file(path, content)
         File.open(path, 'w') do |f|
           f.write(content)
-        end unless File.exist?(path)        
+        end unless File.exist?(path)
       end
     end
   end
