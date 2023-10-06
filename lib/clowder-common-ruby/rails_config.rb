@@ -16,6 +16,7 @@ module ClowderCommonRuby
           database: configure_database(config),
           prometheus_exporter_port: config&.metricsPort,
           tls_ca_path: config.tlsCAPath,
+          unleash: configure_unleash(config),
           web_port: config.webPort
         }
       end
@@ -152,6 +153,21 @@ module ClowderCommonRuby
           rds_ca: config.database.rdsCa,
           ssl_mode: config.database.sslMode,
           ssl_root_cert: build_database_certificate(config.database.rdsCa)
+        }
+      end
+
+      # Unleash configuration hash
+      def configure_unleash(config)
+        return {} unless config.featureFlags
+
+        {
+          url: URI::HTTP.build(
+            host: config.featureFlags.hostname,
+            port: config.featureFlags.port,
+            protocol: config.featureFlags.scheme,
+            path: '/api'
+          ).to_s,
+          token: config.featureFlags.clientAccessToken
         }
       end
 
