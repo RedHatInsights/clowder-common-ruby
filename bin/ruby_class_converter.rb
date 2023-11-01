@@ -82,11 +82,18 @@ class RubyClassConverter
     init_function << "\n"
     value.properties.each_pair do |k, v|
       if v.send(:type) == "array"
-        klass = v.items.send("$ref").rpartition('/').last
-        init_function << "      @#{k} = []\n"
-        init_function << "      attributes.fetch(:#{k.to_sym}, []).each do |attr|\n"
-        init_function << "        @#{k} << #{klass}.new(attr)\n"
-        init_function << "      end\n"
+        if v.items.send("$ref")
+          klass = v.items.send("$ref").rpartition('/').last
+          init_function << "      @#{k} = []\n"
+          init_function << "      attributes.fetch(:#{k.to_sym}, []).each do |attr|\n"
+          init_function << "        @#{k} << #{klass}.new(attr)\n"
+          init_function << "      end\n"
+        else
+          init_function << "      @#{k} = []\n"
+          init_function << "      attributes.fetch(:#{k.to_sym}, []).each do |attr|\n"
+          init_function << "        @#{k} << attr\n"
+          init_function << "      end\n"
+        end
       elsif v.send('$ref')
         klass = v.send('$ref').rpartition('/').last
         init_function << "      @#{k} = #{klass}.new(attributes.fetch(:#{k.to_sym}, {}))\n"
