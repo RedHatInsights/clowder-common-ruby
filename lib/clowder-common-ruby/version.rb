@@ -1,3 +1,3 @@
 module ClowderCommonRuby
-  VERSION = '0.5.1'.freeze # Patch version is being automatically bumped
+  VERSION = '0.5.2'.freeze # Patch version is being automatically bumped
 end

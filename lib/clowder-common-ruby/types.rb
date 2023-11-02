@@ -390,6 +390,7 @@ module ClowderCommonRuby
   end
 
   class DependencyEndpoint < OpenStruct
+    attr_accessor :apiPaths
 
     def initialize(attributes)
       super
@@ -400,6 +401,10 @@ module ClowderCommonRuby
         h[k.to_sym] = v
       end
 
+      @apiPaths = []
+      attributes.fetch(:apiPaths, []).each do |attr|
+        @apiPaths << attr
+      end
     end
 
     def valid_keys
@@ -410,6 +415,7 @@ module ClowderCommonRuby
         keys << :app
         keys << :tlsPort
         keys << :apiPath
+        keys << :apiPaths
       end
     end
   end
