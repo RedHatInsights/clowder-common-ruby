@@ -4,7 +4,7 @@ if ClowderCommonRuby::Config.clowder_enabled? && defined?(Settings)
   config = ClowderCommonRuby::RailsConfig.to_h.deep_stringify_keys
 
   if config.dig('tls_ca_path')
-    ENV['SSL_CERT_FILE'] = Rails.root.join('tmp', 'cacert.crt')
+    ENV['SSL_CERT_FILE'] = Rails.root.join('tmp', 'cacert.crt').to_s
 
     File.open(ENV['SSL_CERT_FILE'], 'w') do |f|
       f.write(File.read('/etc/pki/tls/certs/ca-bundle.crt'))
