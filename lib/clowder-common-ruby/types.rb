@@ -58,6 +58,7 @@ module ClowderCommonRuby
         keys << :privateEndpoints
         keys << :BOPURL
         keys << :hashCache
+        keys << :hostname
       end
     end
   end
