@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v1
-      - name: Install package and dependencies
-        run: |
-          sudo apt-get install ruby-full ruby-rspec
-          sudo gem install climate_control
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          rubygems: latest
       - name: Run Tests
-        run: export ACG_CONFIG="./test.json"; rspec spec/config_spec.rb
+        run: export ACG_CONFIG="./test.json"; bundle exec rake spec
