@@ -11,10 +11,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-      - name: Install dependencies
-        run: |
-          sudo apt-get install -y ruby-bundler
-          bundle install
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          rubygems: latest
       - name: Configure git
         run: |
           git config user.name 'Update-a-Bot'

@@ -9,9 +9,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          sudo apt install -y ruby-full
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          rubygems: latest
       - name: Fetch schema
         run: |
           cd bin
