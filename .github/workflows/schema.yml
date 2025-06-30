@@ -18,14 +18,21 @@ jobs:
         run: |
           cd bin
           wget https://raw.githubusercontent.com/RedHatInsights/clowder/master/controllers/cloud.redhat.com/config/schema.json -O schema.json
-          git config user.name 'Update-a-Bot'
-          git config user.email 'insights@redhat.com'
           ./json_schema_ruby -o ../lib/clowder-common-ruby/types.rb schema.json
+          # Stage files to check if there are changes
           git add schema.json ../lib/clowder-common-ruby/types.rb
+          # If there are changes, bump version
           git diff-index --quiet HEAD -- || ./bump_version
-          git add ../lib/clowder-common-ruby/version.rb
-          git commit -m "chore(schema): update schema and bump version" || echo "No new changes"
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
         with:
           title: "chore(schema): update schema and bump version"
+          commit-message: "chore(schema): update schema and bump version"
+          author: Update-a-Bot <insights@redhat.com>
+          committer: Update-a-Bot <insights@redhat.com>
+          branch: "chore/schema-update"
+          delete-branch: true
+          add-paths: |
+            bin/schema.json
+            lib/clowder-common-ruby/types.rb
+            lib/clowder-common-ruby/version.rb
