@@ -27,6 +27,13 @@
             }
         ]
     },
+    "inMemoryDb": {
+        "hostname": "redis",
+        "username": "username",
+        "password": "password",
+        "sslMode": "false",
+        "port": "6379"
+    },
     "database": {
         "name": "dBaseName",
         "username": "username",
