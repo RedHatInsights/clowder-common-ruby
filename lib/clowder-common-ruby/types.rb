@@ -12,6 +12,7 @@ module ClowderCommonRuby
     attr_accessor :featureFlags
     attr_accessor :endpoints
     attr_accessor :privateEndpoints
+    attr_accessor :prometheusGateway
 
     def initialize(attributes)
       super
@@ -37,6 +38,7 @@ module ClowderCommonRuby
       attributes.fetch(:privateEndpoints, []).each do |attr|
         @privateEndpoints << PrivateDependencyEndpoint.new(attr)
       end
+      @prometheusGateway = PrometheusGatewayConfig.new(attributes.fetch(:prometheusGateway, {}))
     end
 
     def valid_keys
@@ -59,6 +61,7 @@ module ClowderCommonRuby
         keys << :BOPURL
         keys << :hashCache
         keys << :hostname
+        keys << :prometheusGateway
       end
     end
   end
@@ -441,6 +444,27 @@ module ClowderCommonRuby
         keys << :port
         keys << :app
         keys << :tlsPort
+      end
+    end
+  end
+
+  class PrometheusGatewayConfig < OpenStruct
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        warn "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+    end
+
+    def valid_keys
+      [].tap do |keys|
+        keys << :hostname
+        keys << :port
       end
     end
   end
