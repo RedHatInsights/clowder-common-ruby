@@ -45,6 +45,8 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :privatePort
         keys << :publicPort
+        keys << :h2cPrivatePort
+        keys << :h2cPublicPort
         keys << :webPort
         keys << :tlsCAPath
         keys << :metricsPort
@@ -418,6 +420,9 @@ module ClowderCommonRuby
         keys << :port
         keys << :app
         keys << :tlsPort
+        keys << :h2cPort
+        keys << :h2cTLSPort
+        keys << :tlsCAPath
         keys << :apiPath
         keys << :apiPaths
       end
@@ -444,6 +449,9 @@ module ClowderCommonRuby
         keys << :port
         keys << :app
         keys << :tlsPort
+        keys << :h2cPort
+        keys << :h2cTLSPort
+        keys << :tlsCAPath
       end
     end
   end
