@@ -64,6 +64,8 @@ module ClowderCommonRuby
         keys << :hashCache
         keys << :hostname
         keys << :prometheusGateway
+        keys << :dependencyEndpoints
+        keys << :privateDependencyEndpoints
       end
     end
   end
@@ -473,6 +475,27 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :hostname
         keys << :port
+      end
+    end
+  end
+
+  class DependencyEndpointV2 < OpenStruct
+
+    def initialize(attributes)
+      super
+      raise 'The input argument (attributes) must be a hash' if (!attributes || !attributes.is_a?(Hash))
+
+      attributes = attributes.each_with_object({}) do |(k, v), h|
+        warn "The input [#{k}] is invalid" unless valid_keys.include?(k.to_sym)
+        h[k.to_sym] = v
+      end
+
+    end
+
+    def valid_keys
+      [].tap do |keys|
+        keys << :uri
+        keys << :ca_certificate
       end
     end
   end

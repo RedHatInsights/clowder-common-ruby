@@ -1,101 +1,100 @@
 {
-    "publicPort": 8000,
-    "metricsPort": 9000,
-    "metricsPath": "/metrics",
-    "tlsCAPath": "/tlsCAPath",
-    "logging": {
-        "type": "cloudwatch",
-        "cloudwatch": {
-            "accessKeyId": "ACCESS_KEY",
-            "secretAccessKey": "SECRET_ACCESS_KEY",
-            "region": "EU",
-            "logGroup": "base_app"
-            }
-        },
-    "kafka": {
-        "brokers": [
-            {
-                "hostname": "broker-host",
-                "port": 27015,
-                "cacert": "kafkaca"
-            }
-        ],
-        "topics": [
-            {
-                "requestedName": "originalName",
-                "name": "someTopic"
-            }
-        ]
-    },
-    "inMemoryDb": {
-        "hostname": "redis",
-        "username": "username",
-        "password": "password",
-        "sslMode": "false",
-        "port": "6379"
-    },
-    "database": {
-        "name": "dBaseName",
-        "username": "username",
-        "password": "password",
-        "hostname": "hostname",
-        "port": 5432,
-        "pgPass": "testing",
-        "adminUsername": "adminusername",
-        "adminPassword": "adminpassword",
-        "rdsCa": "ca",
-        "sslMode": "verify-full"
-    },
-    "objectStore": {
-        "hostname": "endpoint",
-        "port" : 9292,
-        "accessKey": "Testing",
-        "secretKey": "Testing",
-        "tls": false,
-        "buckets": [
-            {
-                "accessKey": "accessKey1",
-                "secretKey": "secretKey1",
-                "requestedName": "reqname",
-                "name": "name"
-            }
-        ]
-    },
-    "featureFlags": {
-        "hostname": "ff-server.server.example.com",
-        "port": 4242,
-        "scheme": "http"
-    },
-    "endpoints": [
-        {
-            "name": "endpoint1",
-            "app": "app1",
-            "hostname": "endpoint1.svc",
-            "port": 8000,
-            "tlsPort": 8001
-        },
-        {
-            "name": "endpoint2",
-            "app": "app2",
-            "hostname": "endpoint2.svc",
-            "port": 8000,
-            "tlsPort": 8001
-        }
+  "publicPort": 8000,
+  "metricsPort": 9000,
+  "metricsPath": "/metrics",
+  "tlsCAPath": "/tlsCAPath",
+  "logging": {
+    "type": "cloudwatch",
+    "cloudwatch": {
+      "accessKeyId": "ACCESS_KEY",
+      "secretAccessKey": "SECRET_ACCESS_KEY",
+      "region": "EU",
+      "logGroup": "base_app"
+    }
+  },
+  "kafka": {
+    "brokers": [
+      {
+        "hostname": "broker-host",
+        "port": 27015,
+        "cacert": "kafkaca"
+      }
     ],
-    "privateEndpoints": [
-        {
-            "name": "endpoint1",
-            "app": "app1",
-            "hostname": "endpoint1.svc",
-            "port": 10000,
-            "tlsPort": 10001
-        },
-        {
-            "name": "endpoint2",
-            "app": "app2",
-            "hostname": "endpoint2.svc",
-            "port": 10000,
-            "tlsPort": 10001
-        }
+    "topics": [
+      {
+        "requestedName": "originalName",
+        "name": "someTopic"
+      }
     ]
+  },
+  "inMemoryDb": {
+    "hostname": "redis",
+    "username": "username",
+    "password": "password",
+    "sslMode": "false",
+    "port": "6379"
+  },
+  "database": {
+    "name": "dBaseName",
+    "username": "username",
+    "password": "password",
+    "hostname": "hostname",
+    "port": 5432,
+    "adminUsername": "adminusername",
+    "adminPassword": "adminpassword",
+    "rdsCa": "ca",
+    "sslMode": "verify-full"
+  },
+  "objectStore": {
+    "hostname": "endpoint",
+    "port": 9292,
+    "accessKey": "Testing",
+    "secretKey": "Testing",
+    "tls": false,
+    "buckets": [
+      {
+        "accessKey": "accessKey1",
+        "secretKey": "secretKey1",
+        "requestedName": "reqname",
+        "name": "name"
+      }
+    ]
+  },
+  "featureFlags": {
+    "hostname": "ff-server.server.example.com",
+    "port": 4242,
+    "scheme": "http"
+  },
+  "endpoints": [
+    {
+      "name": "endpoint1",
+      "app": "app1",
+      "hostname": "endpoint1.svc",
+      "port": 8000,
+      "tlsPort": 8001
+    },
+    {
+      "name": "endpoint2",
+      "app": "app2",
+      "hostname": "endpoint2.svc",
+      "port": 8000,
+      "tlsPort": 8001
+    }
+  ],
+  "privateEndpoints": [
+    {
+      "name": "endpoint1",
+      "app": "app1",
+      "hostname": "endpoint1.svc",
+      "port": 10000,
+      "tlsPort": 10001
+    },
+    {
+      "name": "endpoint2",
+      "app": "app2",
+      "hostname": "endpoint2.svc",
+      "port": 10000,
+      "tlsPort": 10001
+    }
+  ]
 }
