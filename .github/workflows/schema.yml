@@ -25,7 +25,7 @@ jobs:
       - name: Fetch schema
         run: |
           ./sync_config.sh
-          git add schema.json ../lib/clowder-common-ruby/types.rb
+          git add ./bin/schema.json ./lib/clowder-common-ruby/types.rb
           # If there are changes, bump version
           git diff-index --quiet HEAD -- || ./bin/bump_version
       - name: Create PR
