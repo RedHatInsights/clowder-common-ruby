@@ -25,6 +25,8 @@ module ClowderCommonRuby
       object_buckets
       dependency_endpoints
       private_dependency_endpoints
+      v2_dependency_endpoints
+      v2_private_dependency_endpoints
     end
 
     # List of Kafka Broker URLs.
@@ -80,6 +82,40 @@ module ClowderCommonRuby
 
           priv_endpts[endpoint.app]                = {} unless priv_endpts.include?(endpoint.app)
           priv_endpts[endpoint.app][endpoint.name] = endpoint
+        end
+      end
+    end
+
+    # V2 nested map using [appName][deploymentName]
+    # for the public services of requested applications.
+    def v2_dependency_endpoints
+      @v2_dependency_endpoints ||= parse_v2_endpoints(dependencyEndpoints)
+    end
+
+    # V2 nested map using [appName][deploymentName]
+    # for the private services of requested applications.
+    def v2_private_dependency_endpoints
+      @v2_private_dependency_endpoints ||= parse_v2_endpoints(privateDependencyEndpoints)
+    end
+
+    private
+
+    def parse_v2_endpoints(raw)
+      {}.tap do |endpts|
+        return endpts if raw.nil?
+
+        v2 = raw.is_a?(Hash) ? raw["v2"] : nil
+        return endpts if v2.nil?
+
+        v2.each do |app_name, deployments|
+          next if app_name.nil? || deployments.nil?
+
+          endpts[app_name] = {}
+          deployments.each do |dep_name, attrs|
+            next if dep_name.nil? || attrs.nil?
+
+            endpts[app_name][dep_name] = DependencyEndpointV2.new(attrs)
+          end
         end
       end
     end
