@@ -496,6 +496,7 @@ module ClowderCommonRuby
       [].tap do |keys|
         keys << :uri
         keys << :ca_certificate
+        keys << :authenticated
       end
     end
   end

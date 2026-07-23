@@ -56,8 +56,10 @@ describe ClowderCommonRuby::Config do
 
     expect(subject.v2_dependency_endpoints["app1"]["endpoint1"].uri).to eq("http://endpoint1.svc:8000")
     expect(subject.v2_dependency_endpoints["app1"]["endpoint1"].ca_certificate).to be_nil
+    expect(subject.v2_dependency_endpoints["app1"]["endpoint1"].authenticated).to eq(false)
     expect(subject.v2_dependency_endpoints["app2"]["endpoint2"].uri).to eq("https://endpoint2.svc:8443")
     expect(subject.v2_dependency_endpoints["app2"]["endpoint2"].ca_certificate).to eq("/cdapp/certs/service-ca.crt")
+    expect(subject.v2_dependency_endpoints["app2"]["endpoint2"].authenticated).to eq(true)
   end
 
   it "should have V2 PrivateDependencyEndpoints" do
@@ -67,8 +69,10 @@ describe ClowderCommonRuby::Config do
 
     expect(subject.v2_private_dependency_endpoints["app1"]["endpoint1"].uri).to eq("http://endpoint1.svc:10000")
     expect(subject.v2_private_dependency_endpoints["app1"]["endpoint1"].ca_certificate).to be_nil
+    expect(subject.v2_private_dependency_endpoints["app1"]["endpoint1"].authenticated).to eq(false)
     expect(subject.v2_private_dependency_endpoints["app2"]["endpoint2"].uri).to eq("https://endpoint2.svc:10443")
     expect(subject.v2_private_dependency_endpoints["app2"]["endpoint2"].ca_certificate).to eq("/cdapp/certs/service-ca.crt")
+    expect(subject.v2_private_dependency_endpoints["app2"]["endpoint2"].authenticated).to eq(true)
   end
 
   it "should have KafkaServers" do
