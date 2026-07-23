@@ -96,5 +96,39 @@
       "port": 10000,
       "tlsPort": 10001
     }
-  ]
+  ],
+  "dependencyEndpoints": {
+    "v2": {
+      "app1": {
+        "endpoint1": {
+          "uri": "http://endpoint1.svc:8000",
+          "authenticated": false
+        }
+      },
+      "app2": {
+        "endpoint2": {
+          "uri": "https://endpoint2.svc:8443",
+          "ca_certificate": "/cdapp/certs/service-ca.crt",
+          "authenticated": true
+        }
+      }
+    }
+  },
+  "privateDependencyEndpoints": {
+    "v2": {
+      "app1": {
+        "endpoint1": {
+          "uri": "http://endpoint1.svc:10000",
+          "authenticated": false
+        }
+      },
+      "app2": {
+        "endpoint2": {
+          "uri": "https://endpoint2.svc:10443",
+          "ca_certificate": "/cdapp/certs/service-ca.crt",
+          "authenticated": true
+        }
+      }
+    }
+  }
 }
