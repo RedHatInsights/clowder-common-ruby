@@ -89,13 +89,13 @@ module ClowderCommonRuby
 
       # Redis configuration hash
       def configure_redis(config)
-        inMemoryDb = config&.dig('inMemoryDb')
-        redis_url = "redis://#{inMemoryDb.dig('hostname')}:#{inMemoryDb.dig('port')}"
+        inMemoryDb = config&.inMemoryDb
+        return {} unless inMemoryDb&.hostname
 
         {
-          url: redis_url,
-          password: inMemoryDb.dig('password'),
-          ssl: inMemoryDb.dig('sslMode')
+          url: "redis://#{inMemoryDb.hostname}:#{inMemoryDb.port}",
+          password: inMemoryDb.password,
+          ssl: inMemoryDb.sslMode
         }
       end
 
