@@ -1,4 +1,5 @@
 require 'clowder-common-ruby'
+require 'uri'
 
 module ClowderCommonRuby
   class RailsConfig
@@ -13,6 +14,8 @@ module ClowderCommonRuby
           redis: configure_redis(config),
           endpoints: configure_endpoints(config, :dependency_endpoints),
           private_endpoints: configure_endpoints(config, :private_dependency_endpoints),
+          v2_endpoints: configure_v2_endpoints(config, :v2_dependency_endpoints),
+          v2_private_endpoints: configure_v2_endpoints(config, :v2_private_dependency_endpoints),
           database: configure_database(config),
           prometheus_exporter_port: config&.metricsPort,
           tls_ca_path: config.tlsCAPath,
@@ -115,6 +118,46 @@ module ClowderCommonRuby
         }
       end
 
+      # V2 uses the same app -> deployment nesting as V1 but has a different
+      # endpoint object. Keep its Settings separate so consumers can fall back
+      # to the V1 endpoint when needed.
+      def configure_v2_endpoints(config, field)
+        config.try(field)&.each_with_object({}) do |(name, endpoint), obj|
+          key = name.underscore.to_sym
+          obj[key] = {}
+          endpoint.each do |deployment_name, service|
+            service = build_v2_endpoint(service)
+            next unless service
+
+            deployment_key = deployment_name.underscore.to_sym
+            obj[key][deployment_key] = service
+          end
+
+          obj.delete(key) if obj[key].empty?
+        end
+      end
+
+      # V2 endpoints provide a complete URI and endpoint-specific TLS/auth data.
+      # Return nil for absent or malformed URIs so the legacy endpoint remains
+      # available as a migration fallback.
+      def build_v2_endpoint(endpoint)
+        return unless endpoint&.uri.present?
+
+        uri = URI.parse(endpoint.uri)
+        return unless %w[http https].include?(uri.scheme) && uri.host
+
+        {
+          scheme: uri.scheme,
+          host: "#{uri.host}:#{uri.port}",
+          url: endpoint.uri,
+          ca_certificate: endpoint.ca_certificate.presence,
+          authenticated: endpoint.authenticated,
+          source: :v2
+        }
+      rescue URI::InvalidURIError
+        nil
+      end
+
       # All endpoints' configuration hash
       def configure_endpoints(config, field)
         config.try(field)&.each_with_object({}) do |(name, endpoint), obj|
@@ -136,7 +179,10 @@ module ClowderCommonRuby
         {
           scheme: scheme,
           host: host,
-          url: "#{scheme}://#{host}"
+          url: "#{scheme}://#{host}",
+          ca_certificate: nil,
+          authenticated: false,
+          source: :v1
         }
       end
 
